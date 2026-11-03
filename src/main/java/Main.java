@@ -3,90 +3,132 @@ import javax.swing.JOptionPane;
 public class Main {
 
     public static void main(String[] args) {
-        int menu,cadastrar,listar,consultar,sair,pornomen,porano,sairmenu;
+        int menu, cadastrar, listar, consultar, sair, pornomen, porano, sairmenu;
         int idades[] = new int[100];
         String nomes[] = new String[100];
-        int n=0;
+        int n = 0;
         int opçao1;
-        do{
+        do {
             System.out.println("sistema da escola");
             System.out.println("1- cadastro de aluno");
             System.out.println("2- lista de aluno");
             System.out.println("3- consultar aluno");
-            System.out.println("4-sair");
-            opçao1= Integer.parseInt(JOptionPane.showInputDialog("digite um opção"));
-            switch(opçao1){
+            System.out.println("4- Apagar alunos");
+            System.out.println("5- Alterar alunos");
+            System.out.println("9-sair");
+            opçao1 = Integer.parseInt(JOptionPane.showInputDialog("digite um opção"));
+            switch (opçao1) {
                 case 1:
-                System.out.println("cadasro de conta");
-                if(n<100){
-                    String nome = JOptionPane.showInputDialog("digite um nome: ");
-                    int idade = Integer.parseInt(JOptionPane.showInputDialog("digite uma idade: "));
-                    nomes[n] = nome;
-                    idades[n] = idade;
-                    n = n+1;
-                    }else{
+                    System.out.println("cadasro de conta");
+                    if (n < 100) {
+                        String nome = JOptionPane.showInputDialog("digite um nome: ");
+                        int idade = Integer.parseInt(JOptionPane.showInputDialog("digite uma idade: "));
+                        nomes[n] = nome;
+                        idades[n] = idade;
+                        n = n + 1;
+                    } else {
                         System.out.println("cadastro cheio");
                     }
-                break;
+                    break;
                 case 2:
-                System.out.println("lista de aluno");
-                for(int i=0; i<n; i++){
-                    System.out.println("nome: "+ nomes[i]+" idade: "+idades[i]);
+                    System.out.println("lista de aluno");
+                    for (int i = 0; i < n; i++) {
+                        System.out.println("nome: " + nomes[i] + " idade: " + idades[i]);
+                    }
+                    break;
+                case 3:
+                    System.out.println("consultar aluno");
+                    int opçao2;
+                    do {
+                        System.out.println("1- Por nome");
+                        System.out.println("2- Por idade");
+                        System.out.println("3- Sair da consulta");
+                        opçao2 = Integer.parseInt(JOptionPane.showInputDialog("digite um opção"));
+                        switch (opçao2) {
+                            case 1:
+                                System.out.println("consultar por nome");
+                                String nomepesquisa = JOptionPane.showInputDialog("digite o nome a ser pesquisado");
+                                boolean flag = false;
+                                for (int i = 0; i < n; i++) {
+                                    if (nomes[i].equalsIgnoreCase(nomepesquisa)) {
+                                        System.out.println("achei  aluno com o nome " + nomes[i] + " idade = " + idades[i]);
+                                        flag = true;
+                                    }
+                                }
+                                if (flag == false) {
+                                    System.out.println("Nenhum auno achado com nome: " + nomepesquisa);
+                                }
+                                break;
+                            case 2:
+                                System.out.println("consultar por idade");
+                                int idadepesquisa = Integer.parseInt(JOptionPane.showInputDialog("digite a idade a ser pesquisado"));
+                                boolean flags = false;
+                                for (int i = 0; i < n; i++) {
+                                    if (idades[i] == idadepesquisa) {
+                                        System.out.println("achei  aluno com essa idade " + idades[i] + " idade = " + nomes[i]);
+                                        flags = true;
+                                    }
+                                }
+                                if (flags == false) {
+                                    System.out.println("Nenhum auno achado com idade " + idadepesquisa);
+                                }
+                                break;
+                            case 3:
+                                System.out.println("sair da cnsulta");
+                                break;
+                            case 4:
+                                System.out.println("opção invalida");
+                                break;
+                        }
+                    } while (opçao2 != 3);
+                    break;
+                case 4: {
+                    System.out.println("Excluir aluno");
+                    String nomepesquisa = JOptionPane.showInputDialog("digite o nome do aluno a ser pesquisado para ser apagado");
+                    int posicaoExcluir = -1;
+                    for (int i = 0; i < n; i++) {
+                        if ((nomes[i].equalsIgnoreCase(nomepesquisa)) == true) {
+                            posicaoExcluir = i;
+                        }
+                    }
+                    if (posicaoExcluir != -1) {
+                        for (int i = posicaoExcluir; i < n - 1; ++i) {
+                            nomes[i] = nomes[i + 1];
+                            idades[i] = idades[i + 1];
+                        }
+                        n = n - 1;
+                    } else {
+                        System.out.println("nenhum aluno encontrado com o nome: " + nomepesquisa);
+                    }
                 }
                 break;
-                case 3:
-                System.out.println("consultar aluno");
-                int opçao2;
-                do{
-                    System.out.println("1- Por nome");
-                    System.out.println("2- Por idade");
-                    System.out.println("3- Sair da consulta");
-                    opçao2= Integer.parseInt(JOptionPane.showInputDialog("digite um opção"));
-                    switch(opçao2){
-                    case 1:
-                    System.out.println("consultar por nome");
-                    String nomepesquisa= JOptionPane.showInputDialog("digite o nome a ser pesquisado");
-                    boolean flag = false;
-                    for (int i =0; i<n; i++){
-                        if (nomes[i].equalsIgnoreCase(nomepesquisa)){
-                            System.out.println("achei  aluno com o nome " + nomes[i]+" idade = "+ idades[i]);
-                            flag = true;
+                case 5: {
+                    System.out.println("Alterar Aluno");
+                    String nomepesquisa = JOptionPane.showInputDialog("digite o nome do aluno a ser pesquisado para ser modificado");
+                    int posicaoAlterar = -1;
+                    for (int i = 0; i < n; i++) {
+                        if ((nomes[i].equalsIgnoreCase(nomepesquisa)) == true) {
+                            posicaoAlterar = i;
+                        }
+                        if (posicaoAlterar != -1) {
+                            String nome = JOptionPane.showInputDialog("digite um nome de alterar: ");
+                            int idade = Integer.parseInt(JOptionPane.showInputDialog("digite uma idade de alterar: "));
+                            nomes[posicaoAlterar] = nome;
+                            idades[posicaoAlterar] = idade;
+                            System.out.println("Alteração do alun com sucesso!");
+                        } else {
+                            System.out.println("nenhum aluno encontrado com o nome: " + nomepesquisa);
                         }
                     }
-                    if (flag == false){
-                        System.out.println("Nenhum auno achado com nome: "+ nomepesquisa);
-                    }
+                }
+                break;
+                case 9:
+                    System.out.println("sair do programa");
                     break;
-                    case 2:
-                    System.out.println("consultar por idade");
-                    int idadepesquisa= Integer.parseInt(JOptionPane.showInputDialog("digite a idade a ser pesquisado"));
-                    boolean flags = false;
-                    for (int i =0; i<n; i++){
-                        if (idades[i] == idadepesquisa){
-                            System.out.println("achei  aluno com essa idade " + idades[i]+ " idade = "+ nomes[i]);
-                            flags = true;
-                        }
-                    }
-                    if (flags == false){
-                        System.out.println("Nenhum auno achado com idade "+ idadepesquisa);
-                    }
-                    break;
-                    case 3:
-                    System.out.println("sair da cnsulta");
-                    break;
-                    case 4:
+                case 6:
                     System.out.println("opção invalida");
                     break;
-                    }
-                }while(opçao2 !=3);   
-                break;
-                case 4:
-                System.out.println("sair do programa");
-                break;
-                case 5:
-                System.out.println("opção invalida");
-                break;
             }
-        }while(opçao1 != 4);
+        } while (opçao1 != 8);
     }
 }
